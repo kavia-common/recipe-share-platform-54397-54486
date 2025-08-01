@@ -1,13 +1,20 @@
 /* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
+  /* Project Color Palette */
+  --color-primary: #dd8622;
+  --color-secondary: #83d723;
+  --color-accent: #485b70;
+  /* Theme */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
+  --bg-sidebar: #f4f6f8;
+  --sidebar-border: #e4e4e4;
+  --text-primary: #212529;
+  --text-secondary: #60666c;
+  --text-link: #485b70;
   --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --button-bg: #dd8622;
+  --button-text: #fff;
 }
 
 [data-theme="dark"] {
@@ -101,4 +108,287 @@
     padding: 8px 16px;
     font-size: 12px;
   }
+}
+
+/* --- App Modern Minimal Layout --- */
+.main-app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.main-content {
+  flex: 1;
+  padding: 0;
+  min-width: 0;
+  background: var(--bg-secondary);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .main-app-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100% !important;
+    min-width: unset;
+    flex-direction: row;
+    height: auto !important;
+    border-right: none;
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+  .sidebar .sidebar-logo {
+    margin-bottom: 0;
+    margin-right: 2rem;
+  }
+  .main-content {
+    min-height: 70vh;
+    padding: 0;
+  }
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 220px;
+  background: var(--bg-sidebar);
+  min-height: 100vh;
+  color: var(--color-accent);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem 1rem 1.5rem;
+  border-right: 1px solid var(--sidebar-border);
+  font-weight: 500;
+  z-index: 10;
+  position: relative;
+}
+.sidebar-logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-accent);
+  margin-bottom: 2.2rem;
+  letter-spacing: -2px;
+}
+.sidebar-links {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.sidebar-link {
+  color: var(--color-accent);
+  text-decoration: none;
+  padding: 0.65rem 1.2rem 0.65rem 0.4rem;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  background: none;
+  cursor: pointer;
+  border: none;
+  font: inherit;
+  transition: background 0.14s;
+}
+.sidebar-link.selected,
+.sidebar-link:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 0.99em;
+  color: var(--text-secondary);
+  padding-bottom: 0.5rem;
+  padding-top: 1.2rem;
+}
+
+/* --- BUTTONS --- */
+.btn, button, .button {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 7px;
+  padding: 0.65rem 1.6rem;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.14s;
+}
+.btn:hover, button:hover, .button:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+.btn-secondary {
+  background: var(--color-secondary);
+  color: #fff;
+}
+.btn-secondary:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn-outline {
+  background: none;
+  border: 1.3px solid var(--button-bg);
+  color: var(--button-bg);
+}
+.btn-outline:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* --- FORMS --- */
+form, .form-modern {
+  max-width: 480px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem 1.3rem;
+  border-radius: 11px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 3px 16px 0 rgba(72,91,112,0.05);
+}
+.form-group {
+  margin-bottom: 1.4rem;
+}
+label, .form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--color-accent);
+  display: block;
+}
+input[type="text"], input[type="number"], textarea, select {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.85rem 0.9rem;
+  font-size: 1em;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.17s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--color-primary);
+}
+textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+input[type="checkbox"] {
+  margin-right: 6px;
+}
+.form-actions {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1.4rem;
+}
+.form-hint {
+  font-size: 0.97em;
+  padding-top: 0.18em;
+  color: var(--text-secondary);
+}
+
+/* --- CARD --- */
+.card {
+  background: #fff;
+  border-radius: 9px;
+  box-shadow: 0 2px 10px 0 rgba(50,60,60,0.08);
+  border: 1px solid var(--border-color);
+  padding: 1.2rem 1.2rem 1.6rem 1.2rem;
+  margin-bottom: 2rem;
+  transition: box-shadow 0.15s;
+}
+.card:hover {
+  box-shadow: 0 7px 26px 0 rgba(72,91,112,0.11);
+}
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.8em;
+}
+
+/* --- TABLE --- */
+.table-modern {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.3rem 0;
+  font-size: 1em;
+}
+.table-modern th, .table-modern td {
+  padding: 0.7em 1em;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+.table-modern th {
+  color: var(--color-accent);
+  background: var(--bg-sidebar);
+  font-weight: 600;
+}
+.table-modern tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- TAGS / BADGES --- */
+.tag {
+  display: inline-block;
+  border-radius: 6px;
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: 0.95em;
+  padding: 0.24em 0.84em;
+  margin-right: 0.43em;
+  margin-bottom: 0.2em;
+}
+.tag-accent { background: var(--color-accent);}
+.tag-primary { background: var(--color-primary);}
+.tag-outline {
+  background: none;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+/* --- RECIPE LIST --- */
+.recipe-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2.2rem 0 1.5rem 0;
+}
+.recipe-list-table {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px 0 rgba(50,60,60,0.07);
+  border: 1px solid var(--border-color);
+  padding: 1.2rem;
+  margin-bottom: 2rem;
+}
+/* --- RECIPE DETAIL --- */
+.recipe-detail {
+  max-width: 600px;
+  margin: 3rem auto;
+  background: #fff;
+  padding: 2.2rem 2rem;
+  border-radius: 11px;
+  border: 1.3px solid var(--border-color);
+}
+.recipe-title {
+  font-size: 2.2rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-bottom: 0.4em;
+}
+.recipe-info {
+  color: var(--text-secondary);
+  font-size: 1em;
+}
+
+.instructions-list {
+  margin-left: 1.25em;
+  margin-top: 1.2em;
+}
+.ingredient-list {
+  margin-left: 1.25em;
+  margin-top: 1.2em;
 }

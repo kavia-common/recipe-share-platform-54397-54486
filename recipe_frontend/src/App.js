@@ -1,48 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import RecipeList from "./pages/RecipeList";
+import RecipeForm from "./pages/RecipeForm";
+import RecipeDetail from "./pages/RecipeDetail";
+import Categories from "./pages/Categories";
+import SearchPage from "./pages/SearchPage";
+import Subrecipes from "./pages/Subrecipes";
+import NutritionalInsights from "./pages/NutritionalInsights";
+
+import "./App.css";
 
 // PUBLIC_INTERFACE
+/**
+ * The root App component controls theme, layout, and routing/navigation.
+ */
 function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState("light");
 
-  // Effect to apply theme to document element
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
+  const toggleTheme = () =>
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="main-app-layout">
+        <Sidebar theme={theme} onToggleTheme={toggleTheme} />
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<Navigate to="/recipes" replace />} />
+            <Route path="/recipes" element={<RecipeList />} />
+            <Route path="/recipes/new" element={<RecipeForm mode="create" />} />
+            <Route path="/recipes/:id/edit" element={<RecipeForm mode="edit" />} />
+            <Route path="/recipes/:id" element={<RecipeDetail />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/subrecipes" element={<Subrecipes />} />
+            <Route path="/nutritional" element={<NutritionalInsights />} />
+            <Route path="*" element={<div style={{margin: "3rem"}}>Page not found.</div>} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
