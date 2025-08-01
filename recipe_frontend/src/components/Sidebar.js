@@ -1,80 +1,102 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
+// PUBLIC_INTERFACE
 /**
- * Sidebar navigation for the Recipe Sharing app.
+ * Modern sidebar navigation component with enhanced theme switching
  * @param {Object} props
- * @param {string} props.theme
- * @param {function} props.onToggleTheme
+ * @param {string} props.theme - Current theme ('light' or 'dark')
+ * @param {function} props.onToggleTheme - Theme toggle handler
  */
 function Sidebar({ theme, onToggleTheme }) {
-  const location = useLocation();
-
-  // Helper to get active state
-  function isActive(path) {
-    return location.pathname.startsWith(path);
-  }
+  const navigationItems = [
+    {
+      to: "/recipes",
+      icon: "📋",
+      label: "Recipes",
+      end: true
+    },
+    {
+      to: "/recipes/new",
+      icon: "➕",
+      label: "New Recipe"
+    },
+    {
+      to: "/categories",
+      icon: "🏷️",
+      label: "Categories"
+    },
+    {
+      to: "/search",
+      icon: "🔍",
+      label: "Search"
+    },
+    {
+      to: "/subrecipes",
+      icon: "🧩",
+      label: "Subrecipes"
+    },
+    {
+      to: "/nutritional",
+      icon: "🥦",
+      label: "Nutrition"
+    }
+  ];
 
   return (
-    <nav className="sidebar" data-testid="sidebar">
-      <div className="sidebar-logo">🍽️ RecipeShare</div>
-      <div className="sidebar-links">
-        <NavLink
-          to="/recipes"
-          className={({ isActive }) => "sidebar-link" + (isActive ? " selected" : "")}
-          end
-        >
-          <span role="img" aria-label="list">📋</span> Recipes
-        </NavLink>
-        <NavLink
-          to="/recipes/new"
-          className={({ isActive }) => "sidebar-link" + (isActive ? " selected" : "")}
-        >
-          <span role="img" aria-label="new">➕</span> New Recipe
-        </NavLink>
-        <NavLink
-          to="/categories"
-          className={({ isActive }) => "sidebar-link" + (isActive ? " selected" : "")}
-        >
-          <span role="img" aria-label="categories">🏷️</span> Categories
-        </NavLink>
-        <NavLink
-          to="/search"
-          className={({ isActive }) => "sidebar-link" + (isActive ? " selected" : "")}
-        >
-          <span role="img" aria-label="search">🔍</span> Search
-        </NavLink>
-        <NavLink
-          to="/subrecipes"
-          className={({ isActive }) => "sidebar-link" + (isActive ? " selected" : "")}
-        >
-          <span role="img" aria-label="subrecipe">🧩</span> Subrecipes
-        </NavLink>
-        <NavLink
-          to="/nutritional"
-          className={({ isActive }) => "sidebar-link" + (isActive ? " selected" : "")}
-        >
-          <span role="img" aria-label="nutrition">🥦</span> Nutrition
-        </NavLink>
+    <nav className="sidebar" data-testid="sidebar" role="navigation" aria-label="Main navigation">
+      {/* Logo */}
+      <div className="sidebar-logo">
+        <span role="img" aria-label="recipe">🍽️</span>
+        RecipeShare
       </div>
-      <div style={{ textAlign: "center", marginTop: "1rem" }}>
+
+      {/* Navigation Links */}
+      <div className="sidebar-links">
+        {navigationItems.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) => 
+              `sidebar-link ${isActive ? 'selected' : ''}`
+            }
+            end={item.end}
+            aria-label={`Navigate to ${item.label}`}
+          >
+            <span 
+              className="emoji" 
+              role="img" 
+              aria-label={item.label.toLowerCase()}
+            >
+              {item.icon}
+            </span>
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
+      </div>
+
+      {/* Theme Toggle */}
+      <div className="theme-toggle-container">
         <button
           className="theme-toggle"
           onClick={onToggleTheme}
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-          style={{
-            width: "94%",
-            margin: "0.3rem 0 0.3rem 0",
-            background: "var(--color-accent)",
-            color: "#fff",
-            fontSize: "0.98em"
-          }}
+          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+          aria-pressed={theme === "dark"}
+          type="button"
         >
-          {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+          <span role="img" aria-hidden="true">
+            {theme === "light" ? "🌙" : "☀️"}
+          </span>
+          <span>
+            {theme === "light" ? "Dark Mode" : "Light Mode"}
+          </span>
         </button>
       </div>
+
+      {/* Footer */}
       <div className="sidebar-footer" data-testid="sidebar-footer">
-        <span style={{ fontSize: "0.9em" }}>v1.0 | by Kavia</span>
+        <div>RecipeShare v2.0</div>
+        <div>Powered by Kavia</div>
       </div>
     </nav>
   );
